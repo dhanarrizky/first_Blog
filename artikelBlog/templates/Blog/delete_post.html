@@ -1,0 +1,24 @@
+{% extends 'Blog/base.html' %}
+{% block content %}
+
+{% block title %}
+delete post
+{% endblock title %}
+
+<h1>Delete Post Home Page !!! </h1>
+<br/><br/>
+
+<strong>this is page delete article with title : 
+  {{ post.title }}  
+</strong>
+<br/><br/>
+<form method='POST'>
+    {% csrf_token %}
+
+    <strong>are you sure ?</strong><br/><br/>
+    <button class="btn btn-danger">Delete!!</button>
+
+<a href='{% url "homePage" %}' class="btn btn-secondary">Back Home</a>
+
+
+{% endblock content %}

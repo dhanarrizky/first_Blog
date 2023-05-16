@@ -1,0 +1,19 @@
+{% extends 'Blog/base.html' %}
+{% block content %}
+
+{% block title %}
+Create Profile
+{% endblock title %}
+
+<h1>Create Profile Post Page</h1>
+<br/><br/>
+
+<form method='POST'>
+    {% csrf_token %}
+    {{ form.as_p }} <!--this is tamplates form in django 4 -->
+    <button class="btn btn-success">Create</button>
+</form>
+<a href='{% url "homePage" %}' class="btn btn-secondary">Back Home</a>
+
+
+{% endblock content %}

@@ -1,0 +1,20 @@
+{% extends 'Blog/base.html' %}
+{% block content %}
+
+  
+
+{% block title %}
+Category page
+{% endblock title %}
+
+<h1>This is Category Home Page</h1>
+<br/><br/>
+
+<form method='POST'>
+    {% csrf_token %}
+    {{ form.as_p }} <!--this is tamplates form in django 4 -->
+    <button class="btn btn-success">Add Category</button>
+    
+    <a href='{% url "homePage" %}' class="btn btn-secondary">Back Home</a>
+
+{% endblock content %}

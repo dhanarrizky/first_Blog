@@ -1,0 +1,59 @@
+{% extends 'Blog/base.html' %}
+{% load static %}
+
+{% block title %}
+Detile Profile
+{% endblock title %}
+
+{% block content %}
+<h1> Profile User </h1>
+
+{{ page_user }}
+
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        
+        {% if page_user.profile_pic %}
+          <img src="{{ page_user.profile_pic.url }} " class="img-fluid rounded-start" alt="...">
+        {% else %}
+          <img src="{% static 'artikelBlog/images/defaul_profile_pic.jpg' %} " class="img-fluid rounded-start" alt="my image">  
+        {% endif %}
+          
+        
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ page_user.first_name }}
+          </h5>
+          <p class="card-text">
+            
+            {{ page_user.bio }}</p>
+            
+          <p class="card-text"><small class="text-body-secondary">
+            my name is : {{ page_user.user.first_name }} {{ page_user.user.last_name }}
+            </small></p>
+            <small>
+              
+              {% if page_user.instagram_url %}
+                <a href="{{ page_user.instagram_url }}">Instagram </a>| 
+              {% endif %}
+              {% if page_user.hilokal_url %}
+                <a href="{{ page_user.hilokal_url }}">Hilokal </a>| 
+              {% endif %}
+              {% if page_user.facebook_url %}
+                <a href="{{ page_user.facebook_url }}">Facebook </a>| 
+              {% endif %}
+              {% if page_user.website_url %}
+                <a href="{{ page_user.website_url }}">Website </a>
+              {% endif %} 
+            </small>
+        </div>
+      </div>
+    </div>
+  </div>    
+
+
+
+{% endblock content %}

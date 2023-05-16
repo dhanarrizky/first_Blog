@@ -1,0 +1,24 @@
+{% extends 'Blog/base.html' %}
+{% block content %}
+
+{% block title %}
+Comment page
+{% endblock title %}
+
+<h1>Comment | Home Page Comment Section</h1>
+<br/><br/>
+
+
+{% if user.is_authenticated %}
+    {{ user.id }}
+    <form method='POST'> <!-- we can used image upload, so we need multipat/form-data for make this code to work -->
+        {% csrf_token %}
+        {{ form.as_p }} <!--this is tamplates form in django 4 -->
+        <button class="btn btn-success">Add Comment</button>
+    
+    <a href='{% url "homePage" %}' class="btn btn-secondary">Back Home</a>
+
+
+ {% endif %}
+    
+{% endblock content %}

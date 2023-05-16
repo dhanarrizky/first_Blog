@@ -1,0 +1,35 @@
+{% extends 'Blog/base.html' %}
+{% block content %}
+
+{% block title %}
+Edit Profile
+{% endblock title %}
+
+
+{% if user.is_authenticated %}
+    {% if user.id == user.profile.id %}        
+        <h1>Edit Profile Post Page</h1>
+        <br/><br/>
+        <img src="{{ user.profile.profile_pic.url }}" class="rounded-circle" width=200 hight=200>
+
+        <br/><br/>
+        {{ user.profile.bio }} <!-- to call the bio of user is authenticated -->
+        <br/><br/>
+        <form method='POST'>
+            {% csrf_token %}
+            {{ form.as_p }} <!--this is tamplates form in django 4 -->
+            <button class="btn btn-success">Edit</button>
+            
+            <a href='{% url "homePage" %}' class="btn btn-secondary">Back Home</a>
+            
+        </form>
+    {% else %}
+        you're not allowed here !!!! (and you know it.....)
+    {% endif %}
+{% else %}
+you're not the correct user to edit this......
+
+{% endif %}
+
+
+{% endblock content %}

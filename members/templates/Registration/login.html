@@ -1,0 +1,35 @@
+{% extends 'Blog/base.html' %}
+{% block content %}
+
+{% block title %}
+login
+{% endblock title %}
+
+<h1>Login Post Page</h1>
+<br/><br/>
+
+
+
+<form method='POST'>
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Username</label>
+        <input type="text" class="form-control" required id = "id_username" maxlength="150" name='username'
+        placeholder='username'>  
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control" name='password' required id="id_password"
+        placeholder='password'>
+    </div>
+    Not a user, register <a href="{% url 'register-page' %}">here</a> !!!!
+    <br/><br/>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+<br/>
+<a href='{% url "homePage" %}' class="btn btn-secondary">Back Home</a>
+
+
+{% endblock content %}

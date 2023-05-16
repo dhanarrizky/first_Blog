@@ -1,0 +1,131 @@
+{% extends 'Blog/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ post.title_tag }}
+{% endblock title %}
+
+{% block content %}
+<h1>{{ post.title }}</h1>
+
+current user : {{ user.id }} <br/> <!-- for bring up user id -->
+post author : {{ post.author.id }} <br/> <!-- for bring up author id form the post which is running -->
+
+<small>By: {{ post.author.first_name }}
+    {{ post.author.last_name }} -  {{ post.post_date }} -- 
+    {% if user.is_authenticated %}
+    <!-- we're don't want evryone have access to edit and delete, only the author can deleted and edit the post -->
+    <!-- so we're need 'if' for this function -->
+        
+        {% if user.id == post.author.id %}
+            <a href='{% url "update-post" post.pk %}'>(Edit)</a> |
+            <a href='{% url "delete-post" post.pk %}'>(Delete)</a>
+        {% endif %}
+    {% endif %}
+</small><br/><hr><br/>
+
+{% if post.header_image %} <!-- if image is exist so post.header_image have value is True -->
+    <img src='{{ post.header_image.url }}'>
+{% endif %}
+    
+
+{{ post.body | safe }} <!-- safe is function to convert html code in post to html code
+this code line is so importen to make no eror like show the code html to user  -->
+
+<br/><br/>
+
+<a href='{% url "homePage" %}' class="btn btn-danger" >Back</a> <!--of u want to call a url, u must to call the name of url-->
+
+<br/><br/>
+<hr><br/>
+
+<form action="{% url 'like_post' post.pk %}" method = "POST">
+
+{% if user.is_authenticated %}
+    
+
+    {% csrf_token %}
+    {% if not liked %}
+        <button type="submit" name="post_id" value = "{{ post.id }}" class ="btn btn-primary btn-sm">Like</button>
+    {% else %}
+        <button type="submit" name="post_id" value = "{{ post.id }}" class ="btn btn-danger btn-sm">UnLike</button>    
+    {% endif %}
+{% else %}
+<a href='{% url "login" %}'> Login </a> to Like or UnLike
+    
+{% endif %}
+    
+    ----  likes : {{ total_likes }}
+</form>
+    <hr>
+<br/>
+<h3>Comment......</h3>
+
+<br/>
+
+{% if not post.comments.all %}
+  No comment yet...<a href="{% url 'comment-section' post.pk %}">Add One</a>
+{% else %}
+<a href="{% url 'comment-section' post.pk %}">Add One</a>
+<br/>  
+{% for comment in post.comments.all %}
+  <br/>
+    <strong>
+      {{ comment.name }} -- {{ comment.date_added }}
+    </strong>
+    <br/>
+    {{ comment.body }}
+    <br/>
+  {% endfor %}
+{% endif %}
+  
+<br/><br/>
+
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        
+        {% if post.author.profile.profile_pic.url %}
+          <img src="{{ post.author.profile.profile_pic.url }} " class="img-fluid rounded-start" alt="...">
+        {% else %}
+          <img src="{% static 'artikelBlog/images/defaul_profile_pic.jpg' %} " class="img-fluid rounded-start" alt="my image">  
+        {% endif %}
+          
+        
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ post.author.first_name }}
+          </h5>
+          <p class="card-text">
+            
+            {{ post.author.profile.bio }}</p>
+            
+          <p class="card-text"><small class="text-body-secondary">
+            my name is : {{ post.author.first_name }} {{ post.author.last_name }}
+            </small></p>
+            <small>
+              <h6>
+                <a href="{% url 'profile-detile-page' post.author.profile.id %}"> Page Profile</a>
+              </h6><br/>
+              {% if post.author.profile.instagram_url %}
+                <a href="{{ post.author.profile.instagram_url }}">Instagram </a>| 
+              {% endif %}
+              {% if post.author.profile.hilokal_url %}
+                <a href="{{ post.author.profile.hilokal_url }}">Hilokal </a>| 
+              {% endif %}
+              {% if post.author.profile.facebook_url %}
+                <a href="{{ post.author.profile.facebook_url }}">Facebook </a>| 
+              {% endif %}
+              {% if post.author.profile.website_url %}
+                <a href="{{ post.author.profile.website_url }}">Website </a>
+              {% endif %} 
+            </small>
+        </div>
+      </div>
+    </div>
+  </div>    
+
+
+{% endblock content %}

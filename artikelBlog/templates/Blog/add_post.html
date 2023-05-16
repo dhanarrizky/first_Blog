@@ -1,0 +1,33 @@
+{% extends 'Blog/base.html' %}
+{% block content %}
+
+{% block title %}
+post page
+{% endblock title %}
+
+<h1>Post Home Page</h1>
+<br/><br/>
+
+
+{% if user.is_authenticated %}
+    {{ user.id }}
+    <form method='POST' enctype='multipart/form-data'> <!-- we can used image upload, so we need multipat/form-data for make this code to work -->
+    {% csrf_token %}
+    {{ form.media }} <!-- to bring up ckeditor -->
+    {{ form.as_p }} <!--this is tamplates form in django 4 -->
+    <button class="btn btn-success">Post</button>
+    
+    <a href='{% url "homePage" %}' class="btn btn-secondary">Back Home</a>
+
+
+    <!-- useing javascripts code to send author id and user id to from.py -->
+    <script>
+        var name = "{{ user.id }}";
+        document.getElementById("elder").value = name;
+    </script>
+    <!-- we will get id elder from form.py and then returns the value username in the variable name -->
+{% else %}
+you don't allow at this page, and you know that....
+{% endif %}
+    
+{% endblock content %}
